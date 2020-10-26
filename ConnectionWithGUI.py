@@ -1,82 +1,94 @@
 from Directions import Direction
 import time
-#from client import *
-speed_lvl =1500
 CurrentDirection=""
 class ControlMotion:
     def __init__(self):
-       self.temp=Direction()
+       self.rov=Direction()                        #object from the directions class
        return
     def DirectionofTravel(self,msg):
         array = msg.split()
-        global speed_lvl
         global CurrentDirection
+##############################################################################################################
+######## as no speed is given (addition speed =0) the rov motors will operate with its mininmum speed#########
+##############################################################################################################
         if(array[0]=="move"):
             if(array[1]=="forward"):                   #forward
-               self.temp.forward(speed_lvl)
+               self.rov.forward(0)
                CurrentDirection="forward"
             
             elif(array[1]=="backward"):                #backward
-                self.temp.Backward(speed_lvl)
+                self.rov.Backward(0)
                 CurrentDirection = "backward"
             
             elif(array[1]=="right"):                   #slide right
-                self.temp.Right(speed_lvl)
+                self.rov.Right(0)
                 CurrentDirection = "right"
            
             elif(array[1]=="left"):                    #slide left
-                self.temp.Left(speed_lvl)
+                self.rov.Left(0)
                 CurrentDirection = "left"
             
             elif(array[1]=="up"):                      #upward
-                self.temp.Up(speed_lvl)
+                self.rov.Up(0)
                 CurrentDirection = "up"
             
             elif(array[1]=="down"):                    #downward
-                self.temp.Down(speed_lvl)
+                self.rov.Down(0)
                 CurrentDirection = "down"
 
             elif(array[1]=="rolltoright"):             #rolling clockwise
-                self.temp.RollToRight(speed_lvl)
+                self.rov.RollToRight(0)
                 CurrentDirection = "rolltoright"
 
             elif(array[1]=="rolltoleft"):              #rolling counterclockwise
-                self.temp.RollToLeft(speed_lvl)
+                self.rov.RollToLeft(0)
                 CurrentDirection = "rolltoleft"    
             
             elif(array[1]=="pitchup"):                 #pitching up
-                self.temp.PitchUp(speed_lvl)
+                self.rov.PitchUp(0)
                 CurrentDirection = "pitchup"
 
             elif(array[1]=="pitchdown"):               #pitching down
-                self.temp.PitchDown(speed_lvl)
+                self.rov.PitchDown(0)
                 CurrentDirection = "pitchdown"
 
             elif(array[1]=="yawcw"):                   #rotating right 
-                self.temp.YawCw(speed_lvl)
+                self.rov.YawCw(0)
                 CurrentDirection = "yawcw"
 
             elif(array[1]=="yawccw"):                  #rotating left 
-                self.temp.YawCCw(speed_lvl)
+                self.rov.YawCCw(0)
                 CurrentDirection = "yawccw"
             elif(array[1]== "stop"):
-                self.temp.Stop()                       #motors stopped
-
-        ###############################################################
+                self.rov.Stop()                       #motors stopped
+#####################################################################################################################################
+## as speed will be given now (addition speed >0)the motors will operate with speed equals their minimum speed plus the added speed##
+#####################################################################################################################################
         
         elif(array[0]=="speed"):
-            z=1500
             if (CurrentDirection == "forward"):
-                self.temp.forward(int(array[1])+z)
+                self.rov.forward(int(array[1]))
             elif (CurrentDirection == "backward"):
-                self.temp.Backward(array[1]+z)
-            # all motion ......
-            #speed_lvl = array[1] + z
+                self.rov.Backward(int(array[1]))
+            elif (CurrentDirection == "right"):
+                self.rov.Right(int(array[1]))
+            elif (CurrentDirection == "left"):
+                self.rov.Left(int(array[1]))
+            elif (CurrentDirection == "up"):
+                self.rov.Up(int(array[1]))   
+            elif (CurrentDirection == "down"):
+                self.rov.Down(int(array[1])) 
+            elif (CurrentDirection == "rolltoright"):
+                self.rov.RollToRight(int(array[1]))
+            elif (CurrentDirection == "rolltoleft"):
+                self.rov.RollToLeft(int(array[1]))
+            elif (CurrentDirection == "pitchup"):
+                self.rov.PitchUp(int(array[1]))
+            elif (CurrentDirection == "pitchdown"):
+                self.rov.PitchDown(int(array[1]))    
+            elif (CurrentDirection == "yawcw"):
+                self.rov.YawCw(int(array[1]))
+            elif (CurrentDirection == "yawccw"):
+                self.rov.YawCCw(int(array[1]))  
         return
 
-#print (msg)
-y=ControlMotion()
-y.DirectionofTravel("move forward")
-print("waitagain")
-time.sleep (5)
-y.DirectionofTravel("speed 30")

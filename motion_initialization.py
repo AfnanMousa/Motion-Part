@@ -1,6 +1,5 @@
 #import pigpio
 #pi = pigpio.pi()
-import time
 
 # this is a module in which the intializations of the motor and its direction of motion
 
@@ -24,7 +23,7 @@ class addmotor:
             #pi.set_servo_pulsewidth(self.pin,self.speed)
         print("motor at pin :",self.pin," is moving clockwise with speed:",self.speed )
     def ccw (self,addition_speed):                        #launching the motor in counter clock wise rotation
-        self.speed =1420-addition_speed                    #1420 is the minimum applied speed to launch the motor 
+        self.speed =1410-addition_speed                    #1410 is the minimum applied speed to launch the motor 
         if self.speed >1260 :                              #1260 is set to be the maximum speed applied on motor to work with backward thrust
             pass
             #pi.set_servo_pulsewidth(self.pin,self.speed)
@@ -32,18 +31,3 @@ class addmotor:
             self.speed = 1260
             #pi.set_servo_pulsewidth(self.pin,self.speed)
         print("motor at pin :",self.pin," is moving counter clockwise with speed:",self.speed )
-
-
-
-motor1=addmotor(1)
-
-motor2= addmotor(2)
-
-
-motor1.cw(0)
-motor2.ccw(0)
-print("wait 2 seconds while speed is changed")
-time.sleep(2)
-
-motor1 .cw(200)           #additional speed 200 is higher than motor limit so it will be ste to its maximum limit
-motor2.ccw(100)
