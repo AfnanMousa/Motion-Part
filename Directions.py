@@ -16,8 +16,8 @@ class Direction :
         self.motor6 = addmotor(pins[5])
         self.motor7 = addmotor(pins[6])
         self.motor8 = addmotor(pins[7])
-        self.ServoForClapper = addmotor(pins[8])
-        time.sleep(10)
+        time.sleep(7)
+        print("motors are ready >>>")
         return
 
     # Forward:
@@ -199,10 +199,16 @@ class Direction :
         self.motor7.stop()
         self.motor8.stop()
         return
+    def Stop(self):
+        print("motors are stopped")
+        self.motor1.stop()
+        self.motor2.stop()
+        self.motor3.stop()
+        self.motor4.stop()
+        self.motor5.stop()
+        self.motor6.stop()
+        self.motor7.stop()
+        self.motor8.stop()
 
+        return
 #clapper motion ...
-# rov=Direction()
-# rov.forward(0)
-# print("motion will change")
-# time.sleep(2)
-# rov.forward(30)

@@ -1,6 +1,5 @@
 #import pigpio
 #pi = pigpio.pi()
-import time
 
 # this is a module in which the intializations of the motor and its direction of motion
 
@@ -32,18 +31,3 @@ class addmotor:
             self.speed = 1260
             #pi.set_servo_pulsewidth(self.pin,self.speed)
         print("motor at pin :",self.pin," is moving counter clockwise with speed:",self.speed )
-
-
-
-# motor1=addmotor(1)
-
-# motor2= addmotor(2)
-
-
-# motor1.cw(0)
-# motor2.ccw(0)
-# print("wait 2 seconds while speed is changed")
-# time.sleep(2)
-
-# motor1 .cw(200)           #additional speed 200 is higher than motor limit so it will be ste to its maximum limit
-# motor2.ccw(100)
