@@ -1,12 +1,11 @@
 #import pigpio
 #pi = pigio.pi()
+import time
 from motion_initialization import addmotor
-import time 
-
-pins = [3,5,7,11,13,15,8,10]
+pins = [3,5,7,11,13,15,8,10,11]   #the pin 11 for servo for clapper
 class Direction :
     def __init__(self):
-        for i in range(8) :
+        for i in range(9) :
           # pi.set_mode(pins[i], pigpio.INPUT)
           print("set the mode of pins",pins[i])
         self.motor1 = addmotor(pins[0])
@@ -17,261 +16,193 @@ class Direction :
         self.motor6 = addmotor(pins[5])
         self.motor7 = addmotor(pins[6])
         self.motor8 = addmotor(pins[7])
-        print("WAITING------")
-        time.sleep(3)
-        print("motors are ready to work..")
+        self.ServoForClapper = addmotor(pins[8])
+        time.sleep(10)
         return
 
     # Forward:
     # 1&2 (-)
     # 3&4 (-)
-    def forward(self,speed_lvl):
+    def forward(self,addition_speed):
         print("forward direction")
-        if (speed_lvl > 1900):
-            speed_lvl=1900
-        if(speed_lvl<1100):
-            speed_lvl=1100
-        if((speed_lvl<=1900)and(speed_lvl>=1100)):
-            self.motor1.ccw(speed_lvl)
-            self.motor2.ccw(speed_lvl)
-            self.motor3.ccw(speed_lvl)
-            self.motor4.ccw(speed_lvl)
-            self.motor5.stop()
-            self.motor6.stop()
-            self.motor7.stop()
-            self.motor8.stop()
+        self.motor1.ccw(addition_speed)
+        self.motor2.ccw(addition_speed)
+        self.motor3.ccw(addition_speed)
+        self.motor4.ccw(addition_speed)
+        self.motor5.stop()
+        self.motor6.stop()
+        self.motor7.stop()
+        self.motor8.stop()
         return
 
     # Backward:
     # 1&2 (+)
     # 3&4 (+)
-    def Backward(self,speed_lvl):
+    def Backward(self,addition_speed):
         print("Backward direction")
-        if (speed_lvl > 1900):
-            speed_lvl=1900
-        if(speed_lvl<1100):
-            speed_lvl=1100
-        if((speed_lvl<=1900)and(speed_lvl>=1100)):
-            self.motor1.cw(speed_lvl)
-            self.motor2.cw(speed_lvl)
-            self.motor3.cw(speed_lvl)
-            self.motor4.cw(speed_lvl)
-            self.motor5.stop()
-            self.motor6.stop()
-            self.motor7.stop()
-            self.motor8.stop()
+        self.motor1.cw(addition_speed)
+        self.motor2.cw(addition_speed)
+        self.motor3.cw(addition_speed)
+        self.motor4.cw(addition_speed)
+        self.motor5.stop()
+        self.motor6.stop()
+        self.motor7.stop()
+        self.motor8.stop()
         return
 
     # Right:
     # 2&3 (-)
     # 1&4 (+)
-    def Right(self, speed_lvl):
+    def Right(self, addition_speed):
         print("Right direction")
-        if (speed_lvl > 1900):
-            speed_lvl = 1900
-        if (speed_lvl < 1100):
-            speed_lvl = 1100
-        if ((speed_lvl <= 1900) and (speed_lvl >= 1100)):
-            self.motor1.cw(speed_lvl)
-            self.motor2.ccw(speed_lvl)
-            self.motor3.ccw(speed_lvl)
-            self.motor4.cw(speed_lvl)
-            self.motor5.stop()
-            self.motor6.stop()
-            self.motor7.stop()
-            self.motor8.stop()
+        self.motor1.cw(addition_speed)
+        self.motor2.ccw(addition_speed)
+        self.motor3.ccw(addition_speed)
+        self.motor4.cw(addition_speed)
+        self.motor5.stop()
+        self.motor6.stop()
+        self.motor7.stop()
+        self.motor8.stop()
         return
 
 # Left:
 # 2&3 (+)
 # 1&4 (-)
-    def Left(self, speed_lvl):
+    def Left(self, addition_speed):
         print("Left direction")
-        if (speed_lvl > 1900):
-            speed_lvl = 1900
-        if (speed_lvl < 1100):
-            speed_lvl = 1100
-        if ((speed_lvl <= 1900) and (speed_lvl >= 1100)):
-            self.motor1.ccw(speed_lvl)
-            self.motor2.cw(speed_lvl)
-            self.motor3.cw(speed_lvl)
-            self.motor4.ccw(speed_lvl)
-            self.motor5.stop()
-            self.motor6.stop()
-            self.motor7.stop()
-            self.motor8.stop()
+        self.motor1.ccw(addition_speed)
+        self.motor2.cw(addition_speed)
+        self.motor3.cw(addition_speed)
+        self.motor4.ccw(addition_speed)
+        self.motor5.stop()
+        self.motor6.stop()
+        self.motor7.stop()
+        self.motor8.stop()
         return
 
 # Up:
 # 5&8 (-)
 # 6&7 (+)
-    def Up(self, speed_lvl):
+    def Up(self, addition_speed):
         print("Up direction")
-        if (speed_lvl > 1900):
-            speed_lvl = 1900
-        if (speed_lvl < 1100):
-            speed_lvl = 1100
-        if ((speed_lvl <= 1900) and (speed_lvl >= 1100)):
-            self.motor1.stop()
-            self.motor2.stop()
-            self.motor3.stop()
-            self.motor4.stop()
-            self.motor5.ccw(speed_lvl)
-            self.motor6.cw(speed_lvl)
-            self.motor7.cw(speed_lvl)
-            self.motor8.ccw(speed_lvl)
+        self.motor1.stop()
+        self.motor2.stop()
+        self.motor3.stop()
+        self.motor4.stop()
+        self.motor5.ccw(addition_speed)
+        self.motor6.cw(addition_speed)
+        self.motor7.cw(addition_speed)
+        self.motor8.ccw(addition_speed)
         return
 
 # Down:
 # 5&8 (+)
 # 6&7 (-)
-    def Down(self, speed_lvl):
+    def Down(self, addition_speed):
         print("Down direction")
-        if (speed_lvl > 1900):
-            speed_lvl = 1900
-        if (speed_lvl < 1100):
-            speed_lvl = 1100
-        if ((speed_lvl <= 1900) and (speed_lvl >= 1100)):
-            self.motor1.stop()
-            self.motor2.stop()
-            self.motor3.stop()
-            self.motor4.stop()
-            self.motor5.cw(speed_lvl)
-            self.motor6.ccw(speed_lvl)
-            self.motor7.ccw(speed_lvl)
-            self.motor8.cw(speed_lvl)
+        self.motor1.stop()
+        self.motor2.stop()
+        self.motor3.stop()
+        self.motor4.stop()
+        self.motor5.cw(addition_speed)
+        self.motor6.ccw(addition_speed)
+        self.motor7.ccw(addition_speed)
+        self.motor8.cw(addition_speed)
         return
 
 # Roll to right (x):
 # 7&8 (-)
 # 5&6 (+)
-    def RollToRight(self, speed_lvl):
+    def RollToRight(self, addition_speed):
         print("RollToRight direction")
-        if (speed_lvl > 1900):
-            speed_lvl = 1900
-        if (speed_lvl < 1100):
-            speed_lvl = 1100
-        if ((speed_lvl <= 1900) and (speed_lvl >= 1100)):
-            self.motor1.stop()
-            self.motor2.stop()
-            self.motor3.stop()
-            self.motor4.stop()
-            self.motor5.cw(speed_lvl)
-            self.motor6.cw(speed_lvl)
-            self.motor7.ccw(speed_lvl)
-            self.motor8.ccw(speed_lvl)
+        self.motor1.stop()
+        self.motor2.stop()
+        self.motor3.stop()
+        self.motor4.stop()
+        self.motor5.cw(addition_speed)
+        self.motor6.cw(addition_speed)
+        self.motor7.ccw(addition_speed)
+        self.motor8.ccw(addition_speed)
         return
 
 # Roll to left (x):
 # 7&8 (+)
 # 5&6 (-)
-    def RollToLeft(self, speed_lvl):
+    def RollToLeft(self, addition_speed):
         print("RollToLeft direction")
-        if (speed_lvl > 1900):
-            speed_lvl = 1900
-        if (speed_lvl < 1100):
-            speed_lvl = 1100
-        if ((speed_lvl <= 1900) and (speed_lvl >= 1100)):
-            self.motor1.stop()
-            self.motor2.stop()
-            self.motor3.stop()
-            self.motor4.stop()
-            self.motor5.ccw(speed_lvl)
-            self.motor6.ccw(speed_lvl)
-            self.motor7.cw(speed_lvl)
-            self.motor8.cw(speed_lvl)
+        self.motor1.stop()
+        self.motor2.stop()
+        self.motor3.stop()
+        self.motor4.stop()
+        self.motor5.ccw(addition_speed)
+        self.motor6.ccw(addition_speed)
+        self.motor7.cw(addition_speed)
+        self.motor8.cw(addition_speed)
         return
 
 # Pitch up (y):
 # 5&7 (-)
 # 6&8 (+)
-    def PitchUp(self, speed_lvl):
+    def PitchUp(self, addition_speed):
         print("PitchUp direction")
-        if (speed_lvl > 1900):
-            speed_lvl = 1900
-        if (speed_lvl < 1100):
-            speed_lvl = 1100
-        if ((speed_lvl <= 1900) and (speed_lvl >= 1100)):
-            self.motor1.stop()
-            self.motor2.stop()
-            self.motor3.stop()
-            self.motor4.stop()
-            self.motor5.ccw(speed_lvl)
-            self.motor6.cw(speed_lvl)
-            self.motor7.ccw(speed_lvl)
-            self.motor8.cw(speed_lvl)
+        self.motor1.stop()
+        self.motor2.stop()
+        self.motor3.stop()
+        self.motor4.stop()
+        self.motor5.ccw(addition_speed)
+        self.motor6.cw(addition_speed)
+        self.motor7.ccw(addition_speed)
+        self.motor8.cw(addition_speed)
         return
 
 # Pitch down (y):
 # 5&7 (+)
 # 6&8 (-)
-    def PitchDown(self, speed_lvl):
+    def PitchDown(self, addition_speed):
         print("PitchDown direction")
-        if (speed_lvl > 1900):
-            speed_lvl = 1900
-        if (speed_lvl < 1100):
-            speed_lvl = 1100
-        if ((speed_lvl <= 1900) and (speed_lvl >= 1100)):
-            self.motor1.stop()
-            self.motor2.stop()
-            self.motor3.stop()
-            self.motor4.stop()
-            self.motor5.cw(speed_lvl)
-            self.motor6.ccw(speed_lvl)
-            self.motor7.cw(speed_lvl)
-            self.motor8.ccw(speed_lvl)
+        self.motor1.stop()
+        self.motor2.stop()
+        self.motor3.stop()
+        self.motor4.stop()
+        self.motor5.cw(addition_speed)
+        self.motor6.ccw(addition_speed)
+        self.motor7.cw(addition_speed)
+        self.motor8.ccw(addition_speed)
         return
 
 # Yaw cw (z):
 # 2&4 (-)
 # 1&3 (+)
-    def YawCw(self, speed_lvl):
+    def YawCw(self, addition_speed):
         print("YawCw direction")
-        if (speed_lvl > 1900):
-            speed_lvl = 1900
-        if (speed_lvl < 1100):
-            speed_lvl = 1100
-        if ((speed_lvl <= 1900) and (speed_lvl >= 1100)):
-            self.motor1.cw(speed_lvl)
-            self.motor2.ccw(speed_lvl)
-            self.motor3.cw(speed_lvl)
-            self.motor4.ccw(speed_lvl)
-            self.motor5.stop()
-            self.motor6.stop()
-            self.motor7.stop()
-            self.motor8.stop()
+        self.motor1.cw(addition_speed)
+        self.motor2.ccw(addition_speed)
+        self.motor3.cw(addition_speed)
+        self.motor4.ccw(addition_speed)
+        self.motor5.stop()
+        self.motor6.stop()
+        self.motor7.stop()
+        self.motor8.stop()
         return
 
 # Yaw ccw (z):
 # 2&4 (+)
 # 1&3 (-)
-    def YawCCw(self, speed_lvl):
+    def YawCCw(self, addition_speed):
         print("YawCCw direction")
-        if (speed_lvl > 1900):
-            speed_lvl = 1900
-        if (speed_lvl < 1100):
-            speed_lvl = 1100
-        if ((speed_lvl <= 1900) and (speed_lvl >= 1100)):
-            self.motor1.ccw(speed_lvl)
-            self.motor2.cw(speed_lvl)
-            self.motor3.ccw(speed_lvl)
-            self.motor4.cw(speed_lvl)
-            self.motor5.stop()
-            self.motor6.stop()
-            self.motor7.stop()
-            self.motor8.stop()
-        return
-
-#stop
-    def Stop(self):
-        print("motors are stopped")
-        self.motor1.stop()
-        self.motor2.stop()
-        self.motor3.stop()
-        self.motor4.stop()
+        self.motor1.ccw(addition_speed)
+        self.motor2.cw(addition_speed)
+        self.motor3.ccw(addition_speed)
+        self.motor4.cw(addition_speed)
         self.motor5.stop()
         self.motor6.stop()
         self.motor7.stop()
         self.motor8.stop()
-
         return
+
+#clapper motion ...
+# rov=Direction()
+# rov.forward(0)
+# print("motion will change")
+# time.sleep(2)
+# rov.forward(30)
