@@ -1,11 +1,19 @@
+from DcControl import addDCMotor
 from Directions import Direction
+from CameraControl import camera 
+from ServoControl import Servo
 import time
 CurrentDirection=""
-class ControlMotion:
+class Control:
     def __init__(self):
-       self.rov=Direction()                        #object from the directions class
+       self.rov=Direction()                             #object from the directions class
+       self.cam = camera()                              #object from the camera control class
+       self.servoforgripper = Servo()                   #object for main gripper direction class
+       self.DC=addDCMotor(14,15)                        #object for Dc motor class
+       self.MicroDC=addDCMotor(20,21)                   #dc motor for micro gripper
+       self.MicroMotor=addDCMotor(17,27)                #motor for micro rov motion
        return
-    def DirectionofTravel(self,msg):
+    def MainROV(self,msg):
         array = msg.split()
         global CurrentDirection
 ##############################################################################################################
@@ -90,5 +98,67 @@ class ControlMotion:
                 self.rov.YawCw(int(array[1]))
             elif (CurrentDirection == "yawccw"):
                 self.rov.YawCCw(int(array[1]))  
-        return
 
+###########################################################################################################################################
+#########################################################  servo cam part    ##############################################################
+###########################################################################################################################################    
+        
+        elif(array[0]=="cam"):
+            
+            if(array[1]=="up"):                  #raising camera up
+               self.cam.camup()
+            
+            elif(array[1]=="down"):              #lowering camera down
+                self.cam.camdown()
+
+###########################################################################################################################################
+#########################################################  main grippers's servo ###########################################################
+###########################################################################################################################################
+
+        elif(array[0]=="sgrip"):
+            
+            if(array[1]=="r"):                  #gripper moves right
+               self.servoforgripper.Right()
+            elif(array[1]=="l"):                #grippers moves left
+                self.servoforgripper.left()  
+            elif(array[1]=="n"):                #grippers moves to middle  
+                self.servoforgripper.Neutral()
+
+###########################################################################################################################################
+#########################################################  main grippers's switch ###########################################################
+###########################################################################################################################################
+
+        elif (array[0] == "grip"):
+            if (array[1] == "close"):                # gripper close
+                self.DC.Run()
+                self.DC.forward()
+            elif (array[1] == "open"):               # grippers open
+                self.DC.Run()
+                self.DC.Backward()
+            elif (array[1]=="hold"):                 #gripper hold at its position
+                self.DC.stop()    
+###############################################################################################################################################
+###############################################################################################################################################
+###############################################################################################################################################
+###############################################################################################################################################
+###############################################################################################################################################
+
+    def MicroROV (self,msg):
+        array = msg.split()
+        if (array[0] == "micro"):
+            if (array[1] == "forward"):                            #micro rov goes forward
+                self.MicroMotor.Run()
+                self.MicroMotor.forward()
+            elif (array[1] == "backward"):                         #micro rov goes backward                                       
+                self.MicroMotor.Run()
+                self.MicroMotor.Backward()
+            elif  (array[1] == "stop"):                            #micro rov stops
+                self.MicroMotor.stop()             
+            elif (array[1] == "close"):                            # micro rov gripper close
+                self.MicroDC.Run()
+                self.MicroDC.forward()
+            elif (array[1] == "open"):                             # micro rov gripper open
+                self.MicroDC.Run()
+                self.MicroDC.Backward()
+            elif (array[1] == "hold" ):                             #holds the gripper position      
+                self.MicroDC.stop()   
